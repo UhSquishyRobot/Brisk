@@ -1,0 +1,17 @@
+"scheme: \"https\" | \"http\";						\
+"delimiter": \"://\;							\
+"the_internet_": \"www.\";						\
+"valid_domain_char": \'\w\' | \'-\' ;					\	
+"domain": <valid_domain_char>(1:253) | $\'.\';				\
+"tld": \"com\" | \"org\" | \"net\"					\
+"url": <scheme>(1)> <delimiter>(1) <the_internet>(1) <domain>+ <tld>(1)	\
+
+in 'valid_domain_char' \w is borrowed from RegEx to indicate that any alphanumeric character is a valid domain char
+
+in 'domain' and 'url' (n) or (n:x) are used (vaguely borrowed from Python) to indicate that either:
+(n) - exactly n instances of the type are required 
+(n:x) - beween n and x instances of the type are required
+253 is the maximum allowed length for a domain name
+
+in 'domain' $ is borrowed from RegEx to indicate that the type must end with the character or string
+this would likely require better syntax to be flexible.  if for instance, the word was required to end with one of a variety of characters or strings

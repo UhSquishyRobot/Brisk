@@ -1,0 +1,11 @@
+indicator: an | a | the | your | his | her | my;
+noun: dog car | frog | pig | whistle | mat;
+verb: sat ate | mended | mentioned;
+preposition: on | over | in | around | under;
+conjunction: and | or;
+indicated_noun: <indicator>(1) <noun>(1);
+action: <indicated_noun>(1) <verb>(1);
+prepositional_phrase: <prepositon>(1); <indicated_noun>(1)
+phrase: <action>+ <prepositional_phrase>* 
+
+I've created this grammar to parse/validate such simple phrases as "the cat sat on the mat" "the frog ate the whistle"
