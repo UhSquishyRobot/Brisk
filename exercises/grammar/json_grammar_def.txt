@@ -1,0 +1,7 @@
+JSON: A '{' followed by zero or more KEY_VALUE_PAIRs, separated by commas, and ending with a '}'
+KEY_VALUE_PAIR: A quote enclosed string '\"xxxx\"' followed by a colon ':' followed by a JSON_VALUE
+JSON_VALUE: one of JSON, ARRAY, NUMBER, BOOL, STRING
+ARRAY: a '[' followed by zero or more JSON_VALUES, separated by commas, and ending with a ']'
+NUMBER: any value 0-9
+BOOL: one of true | false
+STRING: zero or more quote enclosed characters .
