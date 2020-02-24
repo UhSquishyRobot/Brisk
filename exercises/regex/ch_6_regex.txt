@@ -1,0 +1,59 @@
+› Write a regular expression matching strings of all a or b such as aababa or bbaa.
+
+Regex
+(^[ab]*\s)
+
+Explanation
+begin capture -> (
+	start of input -> ^
+		then
+		of a or b -> [ab]
+			zero or more -> *
+		then
+			whitespace -> \s
+end capture ->)
+
+Test Cases
+aababa 
+bba 
+cn 
+can 
+cnab 
+abc 
+ababcn
+bbb
+aaa
+aba
+bab
+
+> Write a regular expression matching strings of consecutive a and b such as ababab or aba
+
+Regex
+(^(a|b){0,1}(ab|ba)*(a|b){0,1}$)
+
+begin capture -> (
+	start of input -> ^
+		then
+		of a or b -> (a|b)
+			between 0 and 1 -> {0,1}
+		then 
+		of ab or ba -> (a|b)
+			zero or more -> * 
+		then
+		of a or b -> (a|b)
+			between 0 and 1 -> {0, 1}
+end capture ->)
+
+Test Cases
+abab
+aba
+ba
+baba
+ababa
+babab
+bar
+rab
+babar
+rabar
+a
+b
