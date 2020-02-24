@@ -1,3 +1,10 @@
+These are the bonus exercises from: http://www.buildyourownlisp.com/chapter6_parsing#parsing_user_input
+
+RegEx were tested at:
+https://regex101.com/
+
+Explanations use a notation of my own devising that I hope is mildly clear.
+
 › Write a regular expression matching strings of all a or b such as aababa or bbaa.
 
 Regex
