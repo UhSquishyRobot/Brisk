@@ -31,6 +31,7 @@ bab
 Regex
 (^(a|b){0,1}(ab|ba)*(a|b){0,1}$)
 
+Explanation
 begin capture -> (
 	start of input -> ^
 		then
@@ -42,6 +43,7 @@ begin capture -> (
 		then
 		of a or b -> (a|b)
 			between 0 and 1 -> {0, 1}
+	end of input -> $
 end capture ->)
 
 Test Cases
