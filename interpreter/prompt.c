@@ -13,8 +13,8 @@ int main(int argc, char** argv) {
 	/* Define with language */
 	mpca_lang(MPCA_LANG_DEFAULT,
 		"							\
-		number	: /-?[0-9]+/;					\
-		operator: '+' | '-' | '*' | '/';			\
+		number	: /^-?[0-9]+(?(?=\.).[0-9]+|$)/;					\
+		operator: '+' | '-' | '*' | '/' | '%';			\
 		expr	: <number> | '(' <operator> <expr>+ ')';	\
 		brisk	: /^/ <operator> <expr>+ /$/;			\
 		",
