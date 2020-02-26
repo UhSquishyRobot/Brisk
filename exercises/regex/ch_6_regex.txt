@@ -66,3 +66,30 @@ babar
 rabar
 a
 b
+
+› Write a regular expression matching pit, pot and respite but not peat, spit, or part.
+
+Regex
+^(resp|p)(i|o)te?
+
+Explanation
+Firstly, I really don't like this regex.  I suspect that the prompt is aiming for a simple regex that approaches explicitly stating which words to match or not, rather than finding some common pattern between them.  being able to match 'respite' if 'spit' is not supposed to be a match is turning out to be tricky.  I may revisit this.
+
+Otherwise,
+start of input -> ^
+	then
+	'resp' or 'p' -> (resp|p)
+	then
+	'i' or 'o' -> (i|o)
+	then
+	t
+	then
+	e, optionally -> e?
+
+Test Cases
+pit
+pot
+respite
+peat
+spit
+part
