@@ -38,6 +38,46 @@ int count_branches(struct Node* n) {
     return result;
 }
 
+int max(int a, int b, int c) {
+    int max = 0;
+    if (a > max) {
+        max = a;
+    }
+    if (b > max) {
+        max = b;
+    }
+    if (c > max) {
+        max = c;
+    }
+    return max;
+}
+
+int max_branches(struct Node* head) {
+    struct Node* curr = head;
+    int max_b = 1;
+    int max_rc_b = 0;
+    int max_lc_b = 0;
+
+    if(head->rightSibling == NULL && head->leftChild == NULL) {
+        return 0;
+    }
+
+    while(curr->rightSibling != NULL) {
+        max_b += 1;
+        curr = curr->rightSibling;
+    }
+
+    if(head->rightSibling != NULL) {
+        max_rc_b = max_branches(head->rightSibling);
+    }
+    
+    if (head->leftChild != NULL) {
+        max_lc_b = max_branches(head->leftChild);
+    }
+
+    return max(max_b, max_lc_b, max_rc_b);
+}
+
 /*
  *          A(5)
  *      B(7)   C(12)
@@ -95,7 +135,7 @@ int main() {
     i->leftChild = NULL;
     i->rightSibling = NULL;
 
-    int res = count_branches(a);
+    int res = max_branches(c);
 
     printf("%d\n", res);
 
