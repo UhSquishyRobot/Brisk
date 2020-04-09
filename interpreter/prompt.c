@@ -30,9 +30,13 @@ long eval(mpc_ast_t* t) {
 	/* the third child (and the first operand of the expression) will be an expression, which we'll now evaluate
 	 * this is equivalent to recursively evaluating the leftmost branch of the AST */
 	long x = eval(t->children[2]);
+
+    if ((strcmp(op, "-") == 0) && !strstr(t->children[3]->tag, "expr")) {
+        x = x * -1;
+    }
 	
 	/* we prepare to iterate over the remainder of the expressions by first taking note of our current position in the 
-	 * brisk, which is 3. */
+	 * brisk, which is 4th child 3rd index. */
 	int i = 3;
 	
 	/* now, we do a reduce-like operation, where the evaluated left branch of the AST is the aggregator, the operator is
