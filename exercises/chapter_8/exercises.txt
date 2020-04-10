@@ -1,0 +1,26 @@
+› Run the previous chapter's code through gdb and crash it. See what happens.
+
+Program received signal SIGFPE, Arithmetic exception.
+0x004014c3 in eval_op (x=10, op=0xba6280 "/", y=0) at prompt.c:10
+10              if (strcmp(op, "/") == 0) { return x / y; }
+
+How do you give an enum a name?
+enum State {Working = 1, Failed = 0}
+
+What are union data types and how do they work?
+A union data type can store a value of several different types, but only one at a time.
+For instance, the following union type
+
+union Example {
+    int num;
+    char character;
+    char string[20];
+}
+
+can contain EITHER an int, a character, or a 20 byte string.  It will take up as much memory
+as its largets possible member (in this case 20 bytes), even if it does not hold such a value.
+
+What are the advantages over using a union instead of struct?
+Mostly saves memory it seems like?
+
+
