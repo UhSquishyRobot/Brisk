@@ -23,4 +23,6 @@ as its largets possible member (in this case 20 bytes), even if it does not hold
 What are the advantages over using a union instead of struct?
 Mostly saves memory it seems like?
 
-
+Can you use a union in the definition of lval?
+Yes, since we only need an error int or a long num but never both, we could use a union type.
+However, it makes things uglier and more verbose and I'm not worried about memory so bleagh.
