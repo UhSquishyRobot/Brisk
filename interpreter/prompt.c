@@ -5,10 +5,11 @@
 typedef struct {
     int type;
     long num;
+    double dub;
     int err;
 } lval;
 
-enum { LVAL_NUM, LVAL_ERR };
+enum { LVAL_NUM, LVAL_ERR, LVAL_DUB };
 enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
 
 lval lval_num(long x) {
@@ -25,10 +26,19 @@ lval lval_err(int x) {
     return v;
 }
 
+lval lval_dub(double x) {
+    lval v;
+    v.type = LVAL_DUB;
+    v.dub = x;
+    return v;
+}
+
 void lval_print(lval v) {
     switch(v.type) {
         case LVAL_NUM: printf("%li", v.num); break;
         
+        case LVAL_DUB: printf("%f", v.dub); break;
+
         case LVAL_ERR:
             if (v.err == LERR_DIV_ZERO) {
                 printf("Error: Divison By Zero");
@@ -76,6 +86,11 @@ lval eval(mpc_ast_t* t) {
 		return errno != ERANGE ? lval_num(x) : lval_err(LERR_BAD_NUM);	
 	}
 
+    if (strstr(t->tag, "double")) {
+        double x = strtod(t->contents, NULL);
+        return lval_dub(x);
+    }
+
 	/* at this point we've determined that there's more work to do. the second child is always an operator
 	 * we'll map this its counterpart in C later */
 	char* op = t->children[1]->contents;
@@ -106,6 +121,7 @@ lval eval(mpc_ast_t* t) {
 int main(int argc, char** argv) {
 	/* Create parsers */
 	mpc_parser_t* Number = mpc_new("number");
+	mpc_parser_t* Double = mpc_new("double");
 	mpc_parser_t* Operator = mpc_new("operator");
 	mpc_parser_t* Expr = mpc_new("expr");
 	mpc_parser_t* Brisk = mpc_new("brisk");
@@ -113,12 +129,13 @@ int main(int argc, char** argv) {
 	/* Define with language */
 	mpca_lang(MPCA_LANG_DEFAULT,
 		"							                                        \
-		number	: /-?[0-9]+/ ;		                                        \
+		number	: /-?[0-9]+[^.]/;	                                        \
+        double  : /-?[0-9]+.[0-9]+/ ;                                       \
 		operator: '+' | '-' | '*' | '/' | '%' | '^' | \"min\" | \"max\";    \
-		expr	: <number> | '(' <operator> <expr>+ ')' ;	                \
+		expr	: <number> | <double>  | '(' <operator> <expr>+ ')' ;       \
 		brisk	: /^/ <operator> <expr>+ /$/ ;			                    \
 		",
-	Number, Operator, Expr, Brisk 
+	Number, Double, Operator, Expr, Brisk 
 	);
 
 	puts("Brisk Version 0.0.0.0.1");
@@ -139,7 +156,7 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	mpc_cleanup(4, Number, Operator, Expr, Brisk);
+	mpc_cleanup(4, Number, Double, Operator, Expr, Brisk);
 	
 	return 0;
 }
