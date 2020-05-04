@@ -61,19 +61,43 @@ lval eval_op(lval x, char* op, lval y) {
     if (x.type == LVAL_ERR) { return x; }
     if (y.type == LVAL_ERR) { return y; }
 
-	if (strcmp(op, "+") == 0) { return lval_num(x.num + y.num); }
-	if (strcmp(op, "-") == 0) { return lval_num(x.num - y.num); }
-	if (strcmp(op, "*") == 0) { return lval_num(x.num * y.num); }
-	if (strcmp(op, "/") == 0) { 
-        return y.num == 0
+    if(x.type == LVAL_NUM && y.type == LVAL_NUM) {
+            if (strcmp(op, "+") == 0) { return lval_num(x.num + y.num); }
+            if (strcmp(op, "-") == 0) { return lval_num(x.num - y.num); }
+            if (strcmp(op, "*") == 0) { return lval_num(x.num * y.num); }
+            if (strcmp(op, "/") == 0) { 
+                return y.num == 0
+                    ? lval_err(LERR_DIV_ZERO)
+                    : lval_num(x.num / y.num);
+            } 
+            if (strcmp(op, "^") == 0) { return lval_num(pow (x.num, y.num)); }
+            if (strcmp(op, "%") == 0) { return lval_num(x.num % y.num); }
+            if (strcmp(op, "min") == 0) { return lval_num(x.num < y.num ? x.num : y.num); }
+            if (strcmp(op, "max") == 0) { return lval_num(x.num > y.num ? x.num : y.num); }
+    
+    }
+    
+    if (x.type == LVAL_NUM) {
+        x.dub = (double)x.num;
+    }
+
+    if (y.type == LVAL_NUM) {
+        y.dub = (double)y.num;
+    }
+    
+    if (strcmp(op, "+") == 0) { return lval_dub(x.dub + y.dub); }
+    if (strcmp(op, "-") == 0) { return lval_dub(x.dub - y.dub); }
+    if (strcmp(op, "*") == 0) { return lval_dub(x.dub * y.dub); }
+    if (strcmp(op, "/") == 0) { 
+        return y.dub == 0
             ? lval_err(LERR_DIV_ZERO)
-            : lval_num(x.num / y.num);
+            : lval_dub(x.dub / y.dub);
     } 
-	if (strcmp(op, "^") == 0) { return lval_num(pow (x.num, y.num)); }
-	if (strcmp(op, "%") == 0) { return lval_num(x.num % y.num); }
-    if (strcmp(op, "min") == 0) { return lval_num(x.num < y.num ? x.num : y.num); }
-    if (strcmp(op, "max.num") == 0) { return lval_num(x.num > y.num ? x.num : y.num); }
-   
+    if (strcmp(op, "^") == 0) { return lval_dub(pow (x.dub, y.dub)); }
+    // if (strcmp(op, "%") == 0) { return lval_dub(x.dub % y.dub); }
+    if (strcmp(op, "min") == 0) { return lval_dub(x.dub < y.dub ? x.dub : y.dub); }
+    if (strcmp(op, "max") == 0) { return lval_dub(x.dub > y.dub ? x.dub : y.dub); }
+
 	return lval_err(LERR_BAD_OP);
 }
 
